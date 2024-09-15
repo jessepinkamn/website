@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Messaging App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #app {
+            width: 80%;
+            max-width: 800px;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #messages {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #fafafa;
+        }
+        .message {
+            margin-bottom: 10px;
+        }
+        .message span {
+            font-weight: bold;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Simple Messaging App</h1>
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" placeholder="Enter your username">
+        </div>
+        <div>
+            <label for="recipient">Recipient:</label>
+            <input type="text" id="recipient" placeholder="Enter recipient username">
+        </div>
+        <div id="messages"></div>
+        <div class="error" id="error-message"></div>
+        <div>
+            <input type="text" id="messageInput" placeholder="Type your message">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <script>
+        const messagesDiv = document.getElementById('messages');
+        const usernameInput = document.getElementById('username');
+        const recipientInput = document.getElementById('recipient');
+        const messageInput = document.getElementById('messageInput');
+        const errorMessageDiv = document.getElementById('error-message');
+        
+        const users = ['alice', 'bob', 'charlie']; // Lista di utenti predefiniti
+
+        function displayMessage(sender, recipient, message) {
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message';
+            messageElement.innerHTML = `<span>${sender} to ${recipient}:</span> ${message}`;
+            messagesDiv.appendChild(messageElement);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to the bottom
+        }
+
+        function sendMessage() {
+            const sender = usernameInput.value.trim();
+            const recipient = recipientInput.value.trim();
+            const message = messageInput.value.trim();
+
+            errorMessageDiv.textContent = '';
+
+            if (users.includes(sender) && users.includes(recipient)) {
+                if (sender && recipient && message) {
+                    displayMessage(sender, recipient, message);
+                    messageInput.value = '';
+                } else {
+                    errorMessageDiv.textContent = 'Please fill out all fields.';
+                }
+            } else {
+                errorMessageDiv.textContent = 'Username or recipient does not exist.';
+            }
+        }
+    </script>
+</body>
+</html>
