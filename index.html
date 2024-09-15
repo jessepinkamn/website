@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Messaging App</title>
+    <title>Global Chat</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,6 +24,7 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            height: 80vh; /* Ensure the chat box has a reasonable height */
         }
         header {
             background-color: #007bff;
@@ -38,7 +39,6 @@
             overflow-y: auto;
             border-bottom: 1px solid #ddd;
             background-color: #fafafa;
-            height: 400px; /* Adjust height as needed */
         }
         .message {
             margin-bottom: 15px;
@@ -54,6 +54,8 @@
             padding: 10px;
             background-color: #f9f9f9;
             border-top: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
         }
         input, button {
             padding: 10px;
@@ -88,17 +90,13 @@
 <body>
     <div id="app">
         <header>
-            Simple Messaging App
+            Global Chat
         </header>
         <div id="messages"></div>
         <footer>
             <div>
                 <label for="username">Username:</label>
-                <input type="text" id="username" placeholder="Enter your username" disabled>
-            </div>
-            <div>
-                <label for="recipient">Recipient:</label>
-                <input type="text" id="recipient" placeholder="Enter recipient username">
+                <input type="text" id="username" placeholder="Enter your username">
             </div>
             <div class="error" id="error-message"></div>
             <div>
@@ -110,7 +108,6 @@
     <script>
         const messagesDiv = document.getElementById('messages');
         const usernameInput = document.getElementById('username');
-        const recipientInput = document.getElementById('recipient');
         const messageInput = document.getElementById('messageInput');
         const errorMessageDiv = document.getElementById('error-message');
         
@@ -125,24 +122,21 @@
         }
 
         function sendMessage() {
-            const recipient = recipientInput.value.trim();
             const message = messageInput.value.trim();
 
             errorMessageDiv.textContent = '';
 
-            if (currentUsername && recipient && message) {
-                if (currentUsername !== recipient) {
-                    displayMessage(currentUsername, message);
-                    messageInput.value = '';
-                } else {
-                    errorMessageDiv.textContent = 'You cannot send a message to yourself.';
-                }
+            if (currentUsername && message) {
+                // Simulate sending message to a global chat (to be implemented with real backend)
+                displayMessage(currentUsername, message);
+                messageInput.value = '';
+            } else if (!currentUsername) {
+                errorMessageDiv.textContent = 'Please enter a valid username.';
             } else {
-                errorMessageDiv.textContent = 'Please fill out all fields.';
+                errorMessageDiv.textContent = 'Please enter a message.';
             }
         }
 
-        // Simulate user registration
         function registerUser(username) {
             if (username.trim()) {
                 currentUsername = username.trim();
@@ -154,7 +148,7 @@
             }
         }
 
-        // Register a user (for demo purposes, change this to user input or other method in real scenarios)
+        // Register a user (for demo purposes, prompt user input)
         registerUser(prompt('Enter your username:'));
     </script>
 </body>
